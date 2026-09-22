@@ -7,9 +7,8 @@ from pathlib import Path
 
 
 def _run_local(root: Path) -> None:
-    """Read request.txt and print the response for quick debugging."""
     sys.path.insert(0, str(root / "src"))
-    from agent.brain2 import decide
+    from agent.brain import decide
 
     request_path = root / "request.txt"
     payload = json.loads(request_path.read_text(encoding="utf-8"))
@@ -32,7 +31,7 @@ def main() -> None:
         return
 
     if len(sys.argv) != 2:
-        raise SystemExit("Usage: python main2.py <port> | python main2.py --local")
+        raise SystemExit("Usage: python main.py <port> | python main.py --local")
     port = int(sys.argv[1])
 
     logging.basicConfig(
@@ -41,7 +40,7 @@ def main() -> None:
         format="%(asctime)s | %(message)s",
     )
 
-    from agent.server2 import serve
+    from agent.server import serve
 
     logging.info("listening on 0.0.0.0:%d", port)
     serve(port)

@@ -14,14 +14,20 @@ class Handler(BaseHTTPRequestHandler):
         raw = self.rfile.read(length)
         try:
             payload = json.loads(raw.decode("utf-8"))
-            response = decide(payload)
-            LOGGER.info("round %s -> %s", payload.get("roundNo"), response)
+            commands, prompt, execute_cmd = decide(payload)
+            LOGGER.info("round %s -> commands=%s prompt=%s",
+                        payload.get("roundNo"), commands, prompt[:80] if prompt else "")
             body = json.dumps(
-                {"roleCommandMap": response}, ensure_ascii=False,
+                {
+                    "roleCommandMap": commands,
+                    "prompt": prompt or "",
+                    "executeCmd": execute_cmd or "",
+                },
+                ensure_ascii=False,
             ).encode("utf-8")
         except Exception:
             LOGGER.exception("decision failed")
-            body = b'{"roleCommandMap":{}}'
+            body = b'{"roleCommandMap":{},"prompt":"","executeCmd":""}'
         self.send_response(200)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))

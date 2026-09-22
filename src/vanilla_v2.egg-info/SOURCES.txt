@@ -1,0 +1,10 @@
+pyproject.toml
+src/agent/__init__.py
+src/agent/brain.py
+src/agent/grid.py
+src/agent/protocol.py
+src/agent/server.py
+src/vanilla_v2.egg-info/PKG-INFO
+src/vanilla_v2.egg-info/SOURCES.txt
+src/vanilla_v2.egg-info/dependency_links.txt
+src/vanilla_v2.egg-info/top_level.txt
